@@ -11,34 +11,19 @@ const headers = {
 
 const getNotifications = async () => {
 
-    try {
+    const res = await axios.get(
+        `${URL}/notifications`,
+        { headers }
+    );
 
-        const res = await axios.get(
-            `${URL}/notifications`,
-            { headers }
-        );
+    await Log(
+        "backend",
+        "info",
+        "service",
+        "Fetched notifications successfully"
+    );
 
-        await Log(
-            "backend",
-            "info",
-            "service",
-            "Fetched notifications successfully"
-        );
-
-        return res.data.notifications;
-
-    } catch (err) {
-
-        await Log(
-            "backend",
-            "error",
-            "service",
-            err.message
-        );
-
-        throw err;
-    }
-
+    return res.data.notifications;
 };
 
 module.exports = {

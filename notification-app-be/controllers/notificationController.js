@@ -4,20 +4,38 @@ const {
 
 const Log = require("../../logging-middleware/logger");
 
-const getNotificationsController = async (req, res) => {
+const priority = {
+    Placement: 3,
+    Result: 2,
+    Event: 1
+};
+
+const getPriorityNotifications = async (req, res) => {
 
     try {
 
         const notifications = await getNotifications();
 
+        notifications.sort((a, b) => {
+
+            if (priority[b.Type] !== priority[a.Type]) {
+                return priority[b.Type] - priority[a.Type];
+            }
+
+            return new Date(b.Timestamp) - new Date(a.Timestamp);
+
+        });
+
+        const top10 = notifications.slice(0, 10);
+
         await Log(
             "backend",
             "info",
             "controller",
-            "Notifications fetched successfully"
+            "Priority notifications generated successfully"
         );
 
-        res.json(notifications);
+        res.json(top10);
 
     } catch (err) {
 
@@ -37,5 +55,5 @@ const getNotificationsController = async (req, res) => {
 };
 
 module.exports = {
-    getNotifications: getNotificationsController
+    getPriorityNotifications
 };
