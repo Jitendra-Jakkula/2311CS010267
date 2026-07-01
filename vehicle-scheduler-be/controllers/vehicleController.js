@@ -3,7 +3,7 @@ const {
     getVehicles
 } = require("../services/apiService");
 
-const Log = require("../logging-middleware/logger");
+const Log = require("../../logging-middleware/logger");
 const knapsack = require("../algorithm");
 
 const getSchedule = async (req, res) => {
@@ -11,13 +11,22 @@ const getSchedule = async (req, res) => {
     try {
 
         const depos = await getDepots();
+
         await Log(
-    "backend",
-    "info",
-    "service",
-    "Fetched depot details successfully"
-);
+            "backend",
+            "info",
+            "service",
+            "Fetched depot details successfully"
+        );
+
         const vehi = await getVehicles();
+
+        await Log(
+            "backend",
+            "info",
+            "service",
+            "Fetched vehicle details successfully"
+        );
 
         const res = [];
 
@@ -37,9 +46,23 @@ const getSchedule = async (req, res) => {
 
         }
 
+        await Log(
+            "backend",
+            "info",
+            "service",
+            "Vehicle scheduling completed successfully"
+        );
+
         res.json(res);
 
     } catch (err) {
+
+        await Log(
+            "backend",
+            "error",
+            "controller",
+            err.message
+        );
 
         console.log(err);
 
