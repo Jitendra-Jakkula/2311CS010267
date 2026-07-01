@@ -186,55 +186,6 @@ ORDER BY createdAt DESC;
 
 ---
 
-## Is the query correct?
-
-Yes.
-
-This query gets all unread notifications for a particular student and shows the newest notifications first.
-
----
-
-## Why can this query become slow?
-
-If the Notifications table contains a large amount of data:
-
-- The database has to search through many records.
-- Sorting by `createdAt` also takes extra time.
-- If there is no index, it may check the whole table before returning the result.
-
----
-
-## Recommended Index
-
-A composite index is a better choice than creating separate indexes.
-
-```sql
-CREATE INDEX idx_student_read_created
-ON Notifications(studentId, isRead, createdAt DESC);
-```
-
-This index helps because it:
-
-- Finds the required `studentId`.
-- Checks the `isRead` value.
-- Returns the data in `createdAt` order.
-
-This makes the query faster.
-
----
-
-## Why not create indexes on every column?
-
-Creating indexes for every column is not a good idea because:
-
-- It uses more storage.
-- INSERT, UPDATE and DELETE operations become slower.
-- Some indexes may never be used.
-- The database has to maintain all the indexes.
-
-So, indexes should be added only for columns that are used often in queries.
-
----
 
 ## Query to get Placement notifications from the last 7 days
 
