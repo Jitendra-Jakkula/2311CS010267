@@ -23,7 +23,13 @@ const Log = async (stack, level, packageName, message) => {
         return response.data;
 
     } catch (err) {
-        console.log("Log Error:", err.message);
+
+        console.error("Logger Error:",
+            err.response?.data || err.message
+        );
+
+        
+        return null;
     }
 
 };

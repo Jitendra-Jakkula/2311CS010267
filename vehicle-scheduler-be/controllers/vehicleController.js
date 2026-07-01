@@ -28,7 +28,7 @@ const getSchedule = async (req, res) => {
             "Fetched vehicle details successfully"
         );
 
-        const res = [];
+        const res2 = [];
 
         for (const d of depos) {
 
@@ -37,7 +37,7 @@ const getSchedule = async (req, res) => {
                 d.MechanicHours
             );
 
-            res.push({
+            res2.push({
                 DepotID: d.ID,
                 MechanicHours: d.MechanicHours,
                 TotalImpact: sch.totalImpact,
@@ -53,7 +53,7 @@ const getSchedule = async (req, res) => {
             "Vehicle scheduling completed successfully"
         );
 
-        res.json(res);
+        res.json(res2);
 
     } catch (err) {
 
