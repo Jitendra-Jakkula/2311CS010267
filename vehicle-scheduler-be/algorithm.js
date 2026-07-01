@@ -17,6 +17,7 @@ const knapsack = (vehi, cap) => {
                 dp[i][w] = Math.max(
                     v.Impact + dp[i - 1][w - v.Duration],
                     dp[i - 1][w]
+                    
                 );
 
             } else {
